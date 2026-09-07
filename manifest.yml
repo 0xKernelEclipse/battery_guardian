@@ -1,0 +1,13 @@
+sourcecode:
+  type: git
+  location:
+    origin: https://github.com/0xKernelEclipse/battery_guardian.git
+    commit_sha: 22357fe2059e36e851df574aa2d0b36f2302179b
+short_description: Battery health intelligence, degradation tracking, and charge safety guardian
+description: "@docs/description.md"
+changelog: "@docs/changelog.md"
+screenshots:
+  - screenshots/screenshot_dashboard.png
+  - screenshots/screenshot_health.png
+  - screenshots/screenshot_history.png
+  - screenshots/screenshot_diagnostics.png

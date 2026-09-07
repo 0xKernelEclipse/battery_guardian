@@ -13,8 +13,9 @@ App(
     stack_size=4 * 1024,
     order=20,
     fap_category="Tools",
-    fap_author="Battery Guardian Contributors",
-    fap_weburl="https://github.com/flipperdevices",
+    fap_author="0xKernelEclipse",
+    fap_weburl="https://github.com/0xKernelEclipse/battery_guardian",
+    fap_icon="icon.png",
     fap_version="1.0",
     fap_description="Battery health intelligence, degradation tracking, and charge safety guardian",
     sources=[

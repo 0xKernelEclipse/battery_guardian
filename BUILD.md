@@ -20,12 +20,32 @@ This guide covers building the host test harness and compiling the Flipper Appli
 - **Target Platform:** Flipper Zero STM32WB55 (Target 7, API 87.1)
 
 ### For Host Simulation & Unit Testing
-- **C Compiler (C99 support)**:
-  `tests/run_tests.py` automatically detects any of the following compilers:
-  - **Zig** (`zig cc`): Zig 0.13.0+ on system `PATH` or in `../tools/`
-  - **Clang** (`clang`): on system `PATH` or specified via `CC=clang`
-  - **GCC** (`gcc`): on system `PATH` or specified via `CC=gcc`
-- **Operating Systems Supported:** Windows 10/11, Linux (Ubuntu 20.04+), macOS 12+
+A C99 compiler is required to run the 118 unit tests and 100,000 property fuzz transitions locally.
+Install using the exact command for your platform:
+
+- **Windows (PowerShell):**
+  ```powershell
+  winget install -e --id zig.zig
+  ```
+  *(Or install LLVM Clang: `winget install -e --id LLVM.LLVM`)*
+
+- **Ubuntu / Debian Linux:**
+  ```bash
+  sudo apt-get update
+  sudo apt-get install -y build-essential clang
+  ```
+
+- **macOS (Homebrew):**
+  ```bash
+  brew install zig
+  ```
+  *(Or install Command Line Tools: `xcode-select --install`)*
+
+The test runner `tests/run_tests.py` automatically detects `zig`, `clang`, or `gcc` on `PATH`.
+You can also override the compiler by setting `CC`:
+```bash
+CC=clang python tests/run_tests.py
+```
 
 ---
 

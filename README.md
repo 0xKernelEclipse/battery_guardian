@@ -113,22 +113,88 @@ ARM FAP Compilation (Target 7, API 87.1):      CLEAN (0 warnings)
 
 ---
 
-## Quick Start
+## Status Block
 
-### 1. Host Test Suite & Validation
-Requires Python 3.8+ and a C99 compiler (Zig 0.13, Clang, or GCC):
+```
+SOFTWARE:            VALIDATED (118/118 Tests PASS, 100,000 Property Fuzz PASS)
+RELEASE:             v1.0.0-rc1
+PUBLIC REMOTE:       NOT CONFIGURED (Local Git Repository Staged)
+PHYSICAL HARDWARE:   NOT VALIDATED
+CHARGER CONTROL:     PASSIVE / FAIL-CLOSED (Zero PMIC Register Writes)
+```
+
+---
+
+## Installing Dependencies
+
+Do not guess dependencies. Use the exact commands below for your operating system:
+
+### 1. Install Host C99 Compiler (For Unit & Property Fuzz Tests)
+
+**Windows (PowerShell):**
+```powershell
+# Option A: Install Zig compiler (Recommended)
+winget install -e --id zig.zig
+
+# Option B: Install LLVM Clang
+winget install -e --id LLVM.LLVM
+```
+
+**Ubuntu / Debian Linux:**
 ```bash
-# Execute the comprehensive test suite
+sudo apt-get update
+sudo apt-get install -y build-essential clang python3 python3-pip
+```
+
+**macOS (Homebrew):**
+```bash
+brew install zig
+# Or install Xcode Command Line Tools:
+xcode-select --install
+```
+
+### 2. Install Flipper Build Tool (ufbt)
+
+`ufbt` is the official micro-build tool for Flipper Zero applications.
+
+**All Platforms (via pip):**
+```bash
+python -m pip install --upgrade pip
+python -m pip install --upgrade ufbt
+```
+
+Initialize or update the Flipper SDK for `ufbt`:
+```bash
+ufbt update
+```
+
+---
+
+## Quick Start: Build & Validate
+
+### 1. Run Complete Host Test Suite (118 Tests + 100,000 Fuzz Transitions)
+```bash
 python tests/run_tests.py
 ```
 
-### 2. Compile FAP for Flipper Zero
-Requires [ufbt (Micro Flipper Build Tool)](https://github.com/flipperdevices/flipperzero-ufbt):
+### 2. Compile FAP for Flipper Zero (ARM Cortex-M4)
 ```bash
 ufbt clean
 ufbt
 # Output binary: dist/battery_guardian.fap
 ```
+
+### 3. One-Command Validation (Tests + FAP Build + Integrity Check)
+```bash
+python scripts/validate.py
+```
+
+### 4. Deploying to a Physical Flipper Zero
+Connect your Flipper Zero via USB:
+```bash
+ufbt launch
+```
+Or manually copy `dist/battery_guardian.fap` to `SD Card/apps/Tools/` using qFlipper.
 
 ---
 

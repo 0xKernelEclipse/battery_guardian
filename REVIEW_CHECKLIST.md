@@ -20,7 +20,7 @@ Use this checklist to verify repository completeness, safety integrity, and ecos
 - [x] **External FAP Boundary Clean:** Operates 100% as a user-space external application without requiring custom firmware patches or privileged daemons.
 - [x] **Manifest Valid:** [application.fam](application.fam) declares valid metadata, stack size (4KB), dependencies (`gui`, `cli`, `power`, `storage`), and explicit source list.
 - [x] **RC Artifact Generated:** Target binary `dist/battery_guardian-v1.0.0-rc1.fap` compiled with 0 warnings/errors.
-- [x] **SHA-256 Verified:** Checksum matches `9A39752B998C3E90B117BD6BA4C93BE414653EA9D898A7D2478E2CD3F06FA893` across [RELEASE_NOTES.md](RELEASE_NOTES.md), [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json), and disk artifact.
+- [x] **SHA-256 Verified:** Checksum matches `0B7ABD53AC1340320E543C7CA85EA3F914C9CC56B024199275B5DDAA8806197B` across [RELEASE_NOTES.md](RELEASE_NOTES.md), [RELEASE_MANIFEST.json](RELEASE_MANIFEST.json), and disk artifact.
 - [x] **Known Limitations Documented:** 512 KB quota, $\ge 15\%$ session qualification, and passive charging limitations documented in [REVIEW.md](REVIEW.md) and [ISSUES.md](ISSUES.md).
 - [x] **Hardware Validation Procedure Ready:** Protocols B-01 through B-06 detailed with 8 required fields in [HARDWARE_VALIDATION.md](HARDWARE_VALIDATION.md); [HARDWARE_EVIDENCE_TEMPLATE.md](HARDWARE_EVIDENCE_TEMPLATE.md) provided for logging.
 - [x] **Maintainer Questions Prepared:** Technically actionable inquiries for Flipper firmware maintainers documented in [QUESTIONS_FOR_REVIEW.md](QUESTIONS_FOR_REVIEW.md).
