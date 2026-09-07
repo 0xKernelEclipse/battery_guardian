@@ -1,0 +1,8 @@
+ADD_SCENE(battery_guardian, dashboard, Dashboard)
+ADD_SCENE(battery_guardian, menu, Menu)
+ADD_SCENE(battery_guardian, history, History)
+ADD_SCENE(battery_guardian, sessions, Sessions)
+ADD_SCENE(battery_guardian, diagnostics, Diagnostics)
+ADD_SCENE(battery_guardian, events, Events)
+ADD_SCENE(battery_guardian, health, Health)
+ADD_SCENE(battery_guardian, explanation, Explanation)

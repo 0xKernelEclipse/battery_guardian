@@ -1,0 +1,27 @@
+# Build and binary artifacts
+build/
+dist/
+*.fap
+*.elf
+*.bin
+*.hex
+*.o
+*.obj
+*.exe
+*.pdb
+
+# Flipper build tools
+.ext/
+.ufbt/
+
+# IDE and editor files
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and test artifacts
+*.log
+*.tmp
