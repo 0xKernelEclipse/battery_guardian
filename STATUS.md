@@ -5,7 +5,7 @@
 SOFTWARE VALIDATION:      COMPLETE (118/118 Tests PASS, 100,000 Property Fuzz PASS)
 EXTERNAL APPLICATION:     READY (100% External FAP; Zero Firmware Modifications)
 RELEASE CANDIDATE:        v1.0.0-rc1
-PUBLIC REMOTE:            NOT CONFIGURED (Local Repository Clean & Tagged)
+PUBLIC REMOTE:            https://github.com/0xKernelEclipse/battery_guardian
 PHYSICAL HARDWARE:        NOT VALIDATED
 ACTIVE CHARGE CONTROL:    DISABLED / FAIL-CLOSED (Zero PMIC Register Writes)
 CATALOG:                  PREPARED (Conforms to Current Official Catalog Schema)

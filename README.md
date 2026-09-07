@@ -118,7 +118,7 @@ ARM FAP Compilation (Target 7, API 87.1):      CLEAN (0 warnings)
 ```
 SOFTWARE:            VALIDATED (118/118 Tests PASS, 100,000 Property Fuzz PASS)
 RELEASE:             v1.0.0-rc1
-PUBLIC REMOTE:       NOT CONFIGURED (Local Git Repository Staged)
+PUBLIC REMOTE:       https://github.com/0xKernelEclipse/battery_guardian
 PHYSICAL HARDWARE:   NOT VALIDATED
 CHARGER CONTROL:     PASSIVE / FAIL-CLOSED (Zero PMIC Register Writes)
 ```
