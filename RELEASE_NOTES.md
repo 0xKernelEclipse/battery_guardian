@@ -3,7 +3,7 @@
 **Release Date:** 2026-09-07  
 **Build Target:** Flipper Zero (STM32WB55, Target 7, API 87.1)  
 **Binary Artifact:** `dist/battery_guardian-v1.0.0-rc1.fap`  
-**SHA-256 Checksum:** `177A5FE16754235FF7FC0A3D4B90FFD07E8EDC4AE235C2B91B10CF8DF4F0A36F`  
+**SHA-256 Checksum:** `9A39752B998C3E90B117BD6BA4C93BE414653EA9D898A7D2478E2CD3F06FA893`  
 **Status:** Release Candidate — Software Ready for External Review  
 **Physical Hardware Validation:** NOT PERFORMED  
 

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "battery_guardian",
+  "version": "1.0.0-rc1",
+  "release_channel": "release-candidate",
+  "build_target": "ARM Cortex-M4 (STM32WB55, Target 7)",
+  "api_version": "87.1",
+  "sdk_version": "1.4.3",
+  "source_revision": "15a57616bbca7aae9de475f2ba6df65ace341bae",
+  "artifact": {
+    "filename": "battery_guardian-v1.0.0-rc1.fap",
+    "relative_path": "dist/battery_guardian-v1.0.0-rc1.fap",
+    "sha256": "9A39752B998C3E90B117BD6BA4C93BE414653EA9D898A7D2478E2CD3F06FA893",
+    "format": "Flipper Application Package (FAP)",
+    "entry_point": "battery_guardian_app"
+  },
+  "test_summary": {
+    "unit_and_integration_tests_total": 118,
+    "unit_and_integration_tests_passed": 118,
+    "unit_and_integration_tests_failed": 0,
+    "property_fuzz_transitions": 100000,
+    "property_fuzz_violations": 0,
+    "permanent_regressions_guarded": 5,
+    "coverage_status": "NOT MEASURED (Host Toolchain Limitation)"
+  },
+  "hardware_validation_status": "NOT PERFORMED",
+  "production_charger_mode": "PASSIVE / FAIL-CLOSED",
+  "license": "MIT"
+}
