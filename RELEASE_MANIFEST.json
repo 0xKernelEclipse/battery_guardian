@@ -6,7 +6,7 @@
   "build_target": "ARM Cortex-M4 (STM32WB55, Target 7)",
   "api_version": "87.1",
   "sdk_version": "1.4.3",
-  "source_revision": "603c12c83c625378b708eb9e63ed42b87c4c4473",
+  "source_revision": "767a89f4094316c220d03f8824ce8fb5a0b3ef28",
   "artifact": {
     "filename": "battery_guardian-v1.0.0-rc2.fap",
     "relative_path": "dist/battery_guardian-v1.0.0-rc2.fap",
