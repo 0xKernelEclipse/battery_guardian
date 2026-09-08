@@ -90,7 +90,7 @@ def main():
         print(f"\n[ERROR] Expected target binary not found: {dist_fap}")
         sys.exit(1)
 
-    rc_fap = ROOT / "dist" / "battery_guardian-v1.0.0-rc1.fap"
+    rc_fap = ROOT / "dist" / "battery_guardian-v1.0.0-rc2.fap"
     shutil.copy2(dist_fap, rc_fap)
     sha256 = compute_sha256(rc_fap)
     file_size = rc_fap.stat().st_size
@@ -106,7 +106,7 @@ def main():
     print(f"  HARDWARE VALIDATION:    NOT PERFORMED (PASSIVE / FAIL-CLOSED)")
     print("=" * 60)
     if failed_count == 0 and passed_count == test_count:
-        print("\nOVERALL STATUS: VALIDATION COMPLETE (v1.0.0-rc1)\n")
+        print("\nOVERALL STATUS: VALIDATION COMPLETE (v1.0.0-rc2)\n")
     else:
         print("\nOVERALL STATUS: VALIDATION FAILED\n")
         sys.exit(1)

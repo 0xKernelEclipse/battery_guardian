@@ -1,16 +1,16 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "name": "battery_guardian",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc2",
   "release_channel": "release-candidate",
   "build_target": "ARM Cortex-M4 (STM32WB55, Target 7)",
   "api_version": "87.1",
   "sdk_version": "1.4.3",
-  "source_revision": "cc56d750a85ecf6ec2eecb9aa0ff12d362249a5b",
+  "source_revision": "603c12c83c625378b708eb9e63ed42b87c4c4473",
   "artifact": {
-    "filename": "battery_guardian-v1.0.0-rc1.fap",
-    "relative_path": "dist/battery_guardian-v1.0.0-rc1.fap",
-    "sha256": "CD4AFC01972F911FD00952D8F7422C410918C678203FCF44DE8B548D1FC0B00C",
+    "filename": "battery_guardian-v1.0.0-rc2.fap",
+    "relative_path": "dist/battery_guardian-v1.0.0-rc2.fap",
+    "sha256": "AA04D782AA3EBE1E4C5A7D0DDCF8CA85ACAEC8505F1A611A99006A76510D39D9",
     "format": "Flipper Application Package (FAP)",
     "entry_point": "battery_guardian_app"
   },
