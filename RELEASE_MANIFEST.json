@@ -6,11 +6,11 @@
   "build_target": "ARM Cortex-M4 (STM32WB55, Target 7)",
   "api_version": "87.1",
   "sdk_version": "1.4.3",
-  "source_revision": "15a57616bbca7aae9de475f2ba6df65ace341bae",
+  "source_revision": "cc56d750a85ecf6ec2eecb9aa0ff12d362249a5b",
   "artifact": {
     "filename": "battery_guardian-v1.0.0-rc1.fap",
     "relative_path": "dist/battery_guardian-v1.0.0-rc1.fap",
-    "sha256": "0B7ABD53AC1340320E543C7CA85EA3F914C9CC56B024199275B5DDAA8806197B",
+    "sha256": "CD4AFC01972F911FD00952D8F7422C410918C678203FCF44DE8B548D1FC0B00C",
     "format": "Flipper Application Package (FAP)",
     "entry_point": "battery_guardian_app"
   },

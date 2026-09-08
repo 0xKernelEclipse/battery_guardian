@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Battery Guardian - Unified Verification & Release Packaging Script
-Executes full host validation (118 tests + 100k fuzz), target ARM FAP build (ufbt),
+ Battery Guardian - Unified Verification & Release Packaging Script
+ Executes the host validation, target ARM FAP build (ufbt),
 and checksum verification in a single reproducible command.
 """
 
@@ -19,14 +19,20 @@ def print_header(title):
     print(f"  {title}")
     print("=" * 60)
 
-def run_command(cmd, desc, cwd=ROOT):
+def run_command(cmd, desc, cwd=ROOT, capture_output=False):
     print(f"\n[RUNNING] {desc}...")
     print(f"Command: {' '.join(cmd)}")
-    res = subprocess.run(cmd, cwd=cwd)
+    res = subprocess.run(cmd, cwd=cwd, capture_output=capture_output, text=True)
+    if capture_output:
+        if res.stdout:
+            print(res.stdout, end="")
+        if res.stderr:
+            print(res.stderr, end="")
     if res.returncode != 0:
         print(f"\n[FAILED] {desc} returned exit code {res.returncode}")
         sys.exit(res.returncode)
     print(f"[SUCCESS] {desc}")
+    return res
 
 def compute_sha256(filepath):
     h = hashlib.sha256()
@@ -45,7 +51,27 @@ def main():
         print(f"Error: Cannot find test runner at {run_tests_script}")
         sys.exit(1)
 
-    run_command([sys.executable, str(run_tests_script)], "Host Unit, Fuzz, and Integration Suite")
+    test_result = run_command(
+        [sys.executable, str(run_tests_script)],
+        "Host Unit, Fuzz, and Integration Suite",
+        capture_output=True,
+    )
+
+    test_output = test_result.stdout or ""
+    test_count = None
+    passed_count = None
+    failed_count = None
+    for line in test_output.splitlines():
+        if "Total Unit & Integration Tests:" in line:
+            test_count = int(line.split(":", 1)[1].strip())
+        elif "Total Passed:" in line:
+            passed_count = int(line.split(":", 1)[1].strip())
+        elif "Total Failed:" in line:
+            failed_count = int(line.split(":", 1)[1].strip())
+
+    if test_count is None or passed_count is None or failed_count is None:
+        print("\n[ERROR] Test runner did not print its final totals.")
+        sys.exit(1)
 
     # 2. Check for ufbt
     ufbt_cmd = shutil.which("ufbt")
@@ -72,14 +98,18 @@ def main():
     # 5. Output Final Validation Summary
     print_header("BATTERY GUARDIAN — FINAL VALIDATION SUMMARY")
     print(f"  BUILD:                  PASS (Target 7, API 87.1, {file_size:,} bytes)")
-    print(f"  TEST:                   118 / 118 PASS (8 Suites)")
+    print(f"  TEST:                   {passed_count} / {test_count} PASS")
     print(f"  FUZZ:                   100,000 / 100,000 PASS (0 Invariant Violations)")
     print(f"  REGRESSION:             5 / 5 PASS (REG_01 - REG_05)")
     print(f"  PACKAGE:                PASS ({rc_fap.name})")
     print(f"  SHA-256:                {sha256}")
     print(f"  HARDWARE VALIDATION:    NOT PERFORMED (PASSIVE / FAIL-CLOSED)")
     print("=" * 60)
-    print("\nOVERALL STATUS: VALIDATION COMPLETE — RELEASE READY (v1.0.0-rc1)\n")
+    if failed_count == 0 and passed_count == test_count:
+        print("\nOVERALL STATUS: VALIDATION COMPLETE (v1.0.0-rc1)\n")
+    else:
+        print("\nOVERALL STATUS: VALIDATION FAILED\n")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
