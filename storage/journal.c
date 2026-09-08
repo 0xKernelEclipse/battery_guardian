@@ -216,7 +216,7 @@ bool journal_enqueue_sample(const BatteryTelemetry* sample) {
     furi_mutex_acquire(journal_mutex, FuriWaitForever);
     
     if (buffer_count >= TELEMETRY_BUFFER_SIZE) {
-        // Evict oldest sample to keep ring buffer strictly bounded
+        // Evict the oldest sample when the ring buffer is full.
         buffer_tail = (buffer_tail + 1) % TELEMETRY_BUFFER_SIZE;
         buffer_count--;
         dropped_sample_count++;

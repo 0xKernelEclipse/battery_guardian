@@ -42,7 +42,7 @@ typedef struct {
     uint32_t accepted_count;
     uint32_t head;
     
-    // Most recent robust estimate (e.g. median)
+    // Median of the accepted candidates.
     float robust_estimate_mah;
     bool has_valid_estimate;
     

@@ -384,6 +384,37 @@ void run_phase2_adversarial_tests(void) {
 void run_phase2_confidence_tests(void) {
     printf("\n--- Phase 2A: Confidence Engine Tests ---\n");
 
+    /* Restore the last saved estimate without rebuilding every session. */
+    {
+        BatteryHealthEngine* engine = battery_health_alloc();
+        EstimateRecordPayload payload = {
+            .estimated_capacity = 1950.0f,
+            .reference_capacity = 2100.0f,
+            .observed_health = 92,
+            .confidence = ConfidenceLevelHigh,
+            .accepted_sessions = 6,
+            .rejected_sessions = 1,
+            .trend = -1,
+            .trend_confidence = 80,
+        };
+        battery_health_load_estimate(engine, &payload, 5000000ULL);
+
+        BatteryHealthSnapshot snap;
+        battery_health_get_snapshot(engine, 6000000ULL, &snap);
+        TEST_ASSERT(snap.estimate_available, "Saved estimate should be available after load");
+        TEST_ASSERT(snap.estimated_capacity_mah == 1950.0f,
+            "Saved capacity should be restored");
+        TEST_ASSERT(snap.observed_health_pct == 92,
+            "Saved capacity should produce the expected health estimate");
+        TEST_ASSERT(snap.confidence.overall == ConfidenceLevelHigh,
+            "Saved confidence should be restored");
+        TEST_ASSERT(snap.accepted_sessions == 6 && snap.rejected_sessions == 1,
+            "Saved session counts should be restored");
+        TEST_ASSERT(snap.degradation.trend == DegradationTrendDeclining,
+            "Saved degradation trend should be restored");
+        battery_health_free(engine);
+    }
+
     /* Insufficient data */
     {
         CapacityEstimator est; estimator_init(&est);

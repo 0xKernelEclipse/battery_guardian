@@ -55,17 +55,31 @@ bool battery_health_process_session(BatteryHealthEngine* engine, const BatterySe
             return true;
         }
     }
-    return false; // Did not update global robust estimate enough to trigger a save
+    return false; // No new estimate was saved.
 }
 
 void battery_health_load_estimate(BatteryHealthEngine* engine, const EstimateRecordPayload* payload, uint64_t timestamp) {
-    // Used during startup reconstruction. The estimator history should also be populated by sessions,
-    // but the payload gives us the saved state. We primarily rely on sessions to rebuild the CapacityEstimator
-    // but this validates what was saved.
+    if(!engine || !payload) return;
+
     engine->last_timestamp = timestamp;
-    engine->has_estimate = true;
+    engine->estimator.robust_estimate_mah = payload->estimated_capacity;
+    engine->estimator.has_valid_estimate = payload->estimated_capacity > 0.0f;
+    engine->has_estimate = engine->estimator.has_valid_estimate;
+
     if (payload->reference_capacity > 0.0f) {
         engine->reference_capacity_mah = payload->reference_capacity;
+    }
+
+    engine->confidence.overall = (ConfidenceLevel)payload->confidence;
+    engine->estimator.total_accepted = payload->accepted_sessions;
+    engine->estimator.total_rejected = payload->rejected_sessions;
+    engine->degradation.trend_confidence = payload->trend_confidence;
+    if (payload->trend < 0) {
+        engine->degradation.trend = DegradationTrendDeclining;
+    } else if (payload->trend > 0) {
+        engine->degradation.trend = DegradationTrendImproving;
+    } else {
+        engine->degradation.trend = DegradationTrendStable;
     }
 }
 
