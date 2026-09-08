@@ -15,8 +15,8 @@
     "entry_point": "battery_guardian_app"
   },
   "test_summary": {
-    "unit_and_integration_tests_total": 118,
-    "unit_and_integration_tests_passed": 118,
+    "unit_and_integration_tests_total": 124,
+    "unit_and_integration_tests_passed": 124,
     "unit_and_integration_tests_failed": 0,
     "property_fuzz_transitions": 100000,
     "property_fuzz_violations": 0,

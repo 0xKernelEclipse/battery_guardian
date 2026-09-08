@@ -1,23 +1,9 @@
-# Battery Guardian: Simulation Harness
+# Simulation tests
 
-## Hardware Boundary Disclaimer
+These tests feed synthetic traces into the session, estimator, and charge-policy code. They cover normal discharges, degradation, outliers, bad data, temperature changes, and larger session counts.
 
-**WARNING: THIS SIMULATION FRAMEWORK VALIDATES SOFTWARE LOGIC ONLY.**
+They test software behavior. They do not measure a battery or charger. Those checks need physical hardware.
 
-The test vectors and simulated traces in this directory **DO NOT PROVE**:
-* Real battery capacity
-* Real charger behavior
-* Real power-management IC (PMIC) characteristics
-* Real gauge accuracy
-
-Those elements require physical hardware. This harness exercises the estimator and policy code against synthetic data.
-
-Explicitly: **Synthetic traces validate software behavior, not physical battery characteristics.**
-
-## Architecture
-
-This simulation feeds software traces into the session and estimator code without requiring physical charge or discharge cycles.
-
-* `trace.c/h`: A pseudo-random generator and trace constructors.
-* `simulator.c/h`: Replay loop bridging traces into the production event/session loops.
-* `test_simulation.c`: Replay test execution covering 10 extreme scenarios (including pathologics, temperature excursions, and 10,000-session scale constraints).
+- `trace.c/h` builds the input traces.
+- `simulator.c/h` replays them through the application code.
+- `test_simulation.c` contains the scenarios.

@@ -13,7 +13,7 @@ The app can evaluate charge policies, but the production charger interface is pa
 - Shows current readings, gauge health, observed capacity, confidence, and degradation trend.
 - Evaluates unmanaged, balanced, lifespan, full, and custom charge policies.
 
-The gauge health value and the observed estimate are separate. The gauge value comes from `furi_hal_power_get_bat_health_pct()`. The observed value comes from Battery Guardian's session history. The app does not claim that either value is ground truth.
+The gauge health value comes from the fuel gauge. The observed value comes from Battery Guardian's recorded sessions. Both are estimates made from different data.
 
 ## How it works
 
