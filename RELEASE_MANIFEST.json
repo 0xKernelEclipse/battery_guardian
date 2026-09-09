@@ -10,13 +10,13 @@
   "artifact": {
     "filename": "battery_guardian-v1.0.0-rc2.fap",
     "relative_path": "dist/battery_guardian-v1.0.0-rc2.fap",
-    "sha256": "AA04D782AA3EBE1E4C5A7D0DDCF8CA85ACAEC8505F1A611A99006A76510D39D9",
+    "sha256": "1176FB2C2EE789160E41B290590B5B031DD7325D2D5F02F51D53B37AFEE180B2",
     "format": "Flipper Application Package (FAP)",
     "entry_point": "battery_guardian_app"
   },
   "test_summary": {
-    "unit_and_integration_tests_total": 124,
-    "unit_and_integration_tests_passed": 124,
+    "unit_and_integration_tests_total": 128,
+    "unit_and_integration_tests_passed": 128,
     "unit_and_integration_tests_failed": 0,
     "property_fuzz_transitions": 100000,
     "property_fuzz_violations": 0,

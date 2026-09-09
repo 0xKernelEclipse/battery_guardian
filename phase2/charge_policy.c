@@ -42,10 +42,11 @@ static void transition_to(ChargePolicyEngine* engine, ChargeState new_state, con
                 case ChargeStateRecovery:
                     hal->set_charge_suppressed(false, ctx);
                     break;
-                case ChargeStateTargetReached:
                 case ChargeStateChargeSuppressed:
                 case ChargeStateFault:
                     hal->set_charge_suppressed(true, ctx);
+                    break;
+                case ChargeStateTargetReached:
                     break;
             }
         }
@@ -195,8 +196,10 @@ void charge_policy_update(ChargePolicyEngine* engine, const ChargerHalInterface*
             break;
 
         case ChargeStateTargetReached:
-            // Acknowledge command suppression completion
-            transition_to(engine, ChargeStateChargeSuppressed, "SUPPRESSION_CONFIRMED", timestamp_ms, &sample);
+            // Only enter the suppressed state after the HAL accepts the request.
+            if (hal->set_charge_suppressed(true, hal_ctx)) {
+                transition_to(engine, ChargeStateChargeSuppressed, "SUPPRESSION_CONFIRMED", timestamp_ms, &sample);
+            }
             break;
 
         case ChargeStateChargeSuppressed:

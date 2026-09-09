@@ -36,6 +36,8 @@ static int32_t battery_model_worker_thread(void* context) {
                 diagnostics_inc_samples_invalid();
             }
 
+            battery_health_set_gauge_health(model->health_engine, sample.gauge_health_pct);
+
             // Process core pipeline (NO MUTEX HELD)
             session_process_sample(&sample);
             if(journal_enqueue_sample(&sample)) {
@@ -125,12 +127,17 @@ static bool battery_journal_load_cb(const JournalRecordHeader* header, const voi
 
 BatteryModel* battery_model_alloc(Storage* storage, HistoryModel* h_mod, SessionDataModel* s_mod, EventDataModel* e_mod) {
     BatteryModel* model = malloc(sizeof(BatteryModel));
+    if(!model) return NULL;
     memset(model, 0, sizeof(BatteryModel));
     
     model->h_mod = h_mod;
     model->s_mod = s_mod;
     model->e_mod = e_mod;
     model->health_engine = battery_health_alloc();
+    if(!model->health_engine) {
+        free(model);
+        return NULL;
+    }
     
     model->mutex = furi_mutex_alloc(FuriMutexTypeNormal);
     

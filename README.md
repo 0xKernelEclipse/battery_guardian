@@ -12,9 +12,9 @@ It reads the values exposed by the Flipper power HAL, keeps its own session hist
 |---|---|
 | Platform | Flipper Zero, Target 7, API 87.1 |
 | App type | External FAP, Tools category |
-| Storage | `/ext/apps_data/battery_guardian.log` |
+| Storage | `/ext/battery_guardian.log` |
 | Charger control | Disabled in the production FAP |
-| Host tests | 124 unit and integration checks |
+| Host tests | 128 unit and integration checks |
 | Policy property test | 100,000 transitions |
 | License | MIT |
 
@@ -92,7 +92,7 @@ The host mock accepts suppression requests so policy transitions can be tested. 
 The journal is stored at:
 
 ```text
-/ext/apps_data/battery_guardian.log
+/ext/battery_guardian.log
 ```
 
 It contains a header and typed records for telemetry, sessions, events, and saved estimates. Each record has a CRC for its payload. Startup recovery keeps the valid prefix of a partially written file, and the journal stops accepting records at 512 KB. The in-memory sample buffer is bounded and evicts its oldest sample when full.

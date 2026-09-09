@@ -291,13 +291,13 @@ void test_platform_deterministic_scenario(void) {
     ASSERT_EQ(engine.state, ChargeStateChargingAllowed);
     ASSERT_FALSE(mock_charger_is_suppressed());
 
-    // Phase 5: Target Reached (SOC 82% > 80% target) -> Suppression
+    // Phase 5: Target Reached (SOC 82% > 80% target)
     mock_charger_set_soc(82);
     charge_policy_update(&engine, hal, ctx, 5000);
     ASSERT_EQ(engine.state, ChargeStateTargetReached);
-    ASSERT_TRUE(mock_charger_is_suppressed());
+    ASSERT_FALSE(mock_charger_is_suppressed());
 
-    // Next tick in suppression
+    // Next tick confirms suppression through the HAL.
     charge_policy_update(&engine, hal, ctx, 6000);
     ASSERT_EQ(engine.state, ChargeStateChargeSuppressed);
     ASSERT_TRUE(mock_charger_is_suppressed());

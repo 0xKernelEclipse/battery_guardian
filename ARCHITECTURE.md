@@ -31,7 +31,7 @@ telemetry_adapter.c
 
 `storage/journal.c` writes a header followed by typed records and a CRC for each payload. It recovers the valid prefix after a partial write and caps the file at 512 KB. The journal mutex protects the file and sample ring buffer. File I/O happens while that mutex is held.
 
-The application uses `/ext/apps_data/battery_guardian.log` through `EXT_PATH()`.
+The application uses `/ext/battery_guardian.log` through `EXT_PATH()`.
 
 ## Model and UI
 

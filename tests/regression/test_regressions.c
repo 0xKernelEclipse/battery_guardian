@@ -131,15 +131,19 @@ void test_reg_05_charge_policy_usb_disconnect_fail_safe(void) {
     charge_policy_update(&engine, hal, ctx, 1000);
     ASSERT_EQ(engine.state, ChargeStateChargingAllowed);
     
-    // State 2: Target reached -> charge suppressed
+    // State 2: Target reached. Suppression is requested on the next tick.
     mock_charger_set_soc(81);
     charge_policy_update(&engine, hal, ctx, 2000);
     ASSERT_EQ(engine.state, ChargeStateTargetReached);
+    ASSERT_FALSE(mock_charger_is_suppressed());
+
+    charge_policy_update(&engine, hal, ctx, 2500);
+    ASSERT_EQ(engine.state, ChargeStateChargeSuppressed);
     ASSERT_TRUE(mock_charger_is_suppressed());
     
     // State 3: USB disconnected -> MUST IMMEDIATELY TRANSITION TO UNMANAGED & UNSUPPRESSED
     mock_charger_set_usb_present(false);
-    charge_policy_update(&engine, hal, ctx, 3000);
+    charge_policy_update(&engine, hal, ctx, 3500);
     ASSERT_EQ(engine.state, ChargeStateUnmanaged);
     ASSERT_FALSE(mock_charger_is_suppressed());
     

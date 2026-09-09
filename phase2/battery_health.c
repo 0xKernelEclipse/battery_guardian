@@ -4,6 +4,7 @@
 
 BatteryHealthEngine* battery_health_alloc(void) {
     BatteryHealthEngine* engine = malloc(sizeof(BatteryHealthEngine));
+    if(!engine) return NULL;
     memset(engine, 0, sizeof(BatteryHealthEngine));
     engine->reference_capacity_mah = 2100.0f; // Default Flipper Zero design capacity
     estimator_init(&engine->estimator);
@@ -15,14 +16,17 @@ void battery_health_free(BatteryHealthEngine* engine) {
 }
 
 void battery_health_set_reference(BatteryHealthEngine* engine, float reference_mah) {
+    if(!engine) return;
     engine->reference_capacity_mah = reference_mah;
 }
 
 void battery_health_set_gauge_health(BatteryHealthEngine* engine, uint8_t health_pct) {
+    if(!engine) return;
     engine->gauge_health_pct = health_pct;
 }
 
 bool battery_health_process_session(BatteryHealthEngine* engine, const BatterySession* session, EstimateRecordPayload* out_payload) {
+    if(!engine || !session) return false;
     CapacityCandidate candidate;
     CandidateRejectionReason reason = estimator_process_session(&engine->estimator, session, &candidate);
     
@@ -73,6 +77,14 @@ void battery_health_load_estimate(BatteryHealthEngine* engine, const EstimateRec
     engine->confidence.overall = (ConfidenceLevel)payload->confidence;
     engine->estimator.total_accepted = payload->accepted_sessions;
     engine->estimator.total_rejected = payload->rejected_sessions;
+    if (engine->estimator.accepted_count == 0 && engine->estimator.has_valid_estimate) {
+        CapacityCandidate* baseline = &engine->estimator.accepted[0];
+        memset(baseline, 0, sizeof(*baseline));
+        baseline->candidate_capacity_mah = payload->estimated_capacity;
+        baseline->evidence_type = CapacityEvidenceCurrentIntegration;
+        engine->estimator.accepted_count = 1;
+        engine->estimator.head = 1;
+    }
     engine->degradation.trend_confidence = payload->trend_confidence;
     if (payload->trend < 0) {
         engine->degradation.trend = DegradationTrendDeclining;
@@ -84,7 +96,13 @@ void battery_health_load_estimate(BatteryHealthEngine* engine, const EstimateRec
 }
 
 void battery_health_get_snapshot(BatteryHealthEngine* engine, uint64_t current_timestamp, BatteryHealthSnapshot* snapshot) {
+    if(!snapshot) return;
     memset(snapshot, 0, sizeof(BatteryHealthSnapshot));
+    if(!engine) {
+        snapshot->model_state = ModelInsufficientData;
+        return;
+    }
+    snapshot->gauge_health_pct = engine->gauge_health_pct;
     snapshot->estimate_available = engine->has_estimate;
     
     if (!engine->has_estimate) {
@@ -103,7 +121,6 @@ void battery_health_get_snapshot(BatteryHealthEngine* engine, uint64_t current_t
     }
     snapshot->observed_health_pct = (uint8_t)health;
     
-    snapshot->gauge_health_pct = engine->gauge_health_pct;
     snapshot->confidence = engine->confidence;
     snapshot->degradation = engine->degradation;
     

@@ -384,6 +384,49 @@ void run_phase2_adversarial_tests(void) {
 void run_phase2_confidence_tests(void) {
     printf("\n--- Phase 2A: Confidence Engine Tests ---\n");
 
+    /* Health snapshots include the gauge value read by the telemetry adapter. */
+    {
+        BatteryHealthEngine* engine = battery_health_alloc();
+        battery_health_set_gauge_health(engine, 87);
+        BatteryHealthSnapshot snap;
+        battery_health_get_snapshot(engine, 0, &snap);
+        TEST_ASSERT(snap.gauge_health_pct == 87,
+            "Gauge health should be copied into the health snapshot");
+        battery_health_free(engine);
+    }
+
+    /* Loading an estimate should leave baseline state for the next session. */
+    {
+        BatteryHealthEngine* engine = battery_health_alloc();
+        EstimateRecordPayload payload = {
+            .estimated_capacity = 1950.0f,
+            .reference_capacity = 2100.0f,
+            .confidence = ConfidenceLevelMedium,
+            .accepted_sessions = 6,
+        };
+        battery_health_load_estimate(engine, &payload, 5000000ULL);
+        BatterySession next = make_session(900, 80, 20, 1260.0f,
+                                           6000000ULL, 13200000ULL,
+                                           false, false, false, 100);
+        EstimateRecordPayload next_payload;
+        bool accepted = battery_health_process_session(engine, &next, &next_payload);
+        TEST_ASSERT(accepted, "A new session should continue from a saved estimate");
+        TEST_ASSERT(engine->estimator.accepted_count >= 2,
+            "Saved estimate should seed continued estimator history");
+        battery_health_free(engine);
+    }
+
+    /* Public health APIs should tolerate null handles. */
+    {
+        BatterySession session;
+        memset(&session, 0, sizeof(session));
+        battery_health_set_reference(NULL, 2100.0f);
+        battery_health_set_gauge_health(NULL, 80);
+        TEST_ASSERT(!battery_health_process_session(NULL, &session, NULL),
+            "Null health engine should reject session processing");
+        battery_health_get_snapshot(NULL, 0, NULL);
+    }
+
     /* Restore the last saved estimate without rebuilding every session. */
     {
         BatteryHealthEngine* engine = battery_health_alloc();
